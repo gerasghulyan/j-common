@@ -1,0 +1,26 @@
+rootProject.name = 'j-common'
+
+include "persistence:postgres"
+include "persistence:mongo"
+include 'persistence:dynamodb:reactive'
+include 'persistence:dynamodb:non-reactive'
+
+include "rest:dto"
+include "rest:api"
+
+include "testing:unit-test"
+include "testing:integration-test:mongodb"
+include "testing:integration-test:postgres"
+include "testing:integration-test:memcached"
+include "testing:integration-test:localstack"
+include "testing:integration-test:samples"
+include "testing:test-toolkit"
+
+include 'utils'
+
+include 'queue:queue-consumer'
+include "queue:queue-message"
+include "queue:queue-producer"
+
+include 'storage:s3-client:reactive'
+include 'storage:s3-client:non-reactive'

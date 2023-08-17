@@ -1,0 +1,1 @@
+-- place to add custom script before tests starts

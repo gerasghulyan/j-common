@@ -1,0 +1,29 @@
+version = environmentPlatformVersion(commonsUtilsLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-utils"
+}
+
+dependencies {
+    testImplementation project(":testing:test-toolkit")
+}
+
+publishing {
+    publications {
+        utils(MavenPublication) {
+            artifactId = "utils"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

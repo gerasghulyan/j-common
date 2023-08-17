@@ -1,0 +1,31 @@
+version = environmentPlatformVersion(commonsRestApiLibraryVersion)
+
+jar {
+    archivesBaseName = "platform-commons-rest-api"
+}
+
+dependencies {
+    api project(":rest:dto")
+    implementation "io.swagger.core.v3:swagger-annotations-jakarta"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+}
+
+publishing {
+    publications {
+        restApi(MavenPublication) {
+            artifactId = "rest-api"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

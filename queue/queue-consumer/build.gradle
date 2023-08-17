@@ -1,0 +1,33 @@
+version = environmentPlatformVersion(commonsQueueConsumerLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-queue-consumer"
+}
+
+dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "org.springframework.cloud:spring-cloud-aws-messaging"
+    implementation "io.projectreactor:reactor-core"
+    api project(':utils')
+}
+
+publishing {
+    publications {
+        queueConsumer(MavenPublication) {
+            artifactId = "queue-consumer"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

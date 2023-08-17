@@ -1,0 +1,33 @@
+version = environmentPlatformVersion(commonsQueueProducerLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-queue-producer"
+}
+
+dependencies {
+    implementation project(':utils')
+    implementation project(":queue:queue-message")
+    implementation "io.projectreactor:reactor-core"
+    implementation "org.springframework.cloud:spring-cloud-aws-messaging"
+    testApi project(":testing:test-toolkit")
+}
+
+publishing {
+    publications {
+        queueProducer(MavenPublication) {
+            artifactId = "queue-producer"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

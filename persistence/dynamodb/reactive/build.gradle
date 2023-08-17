@@ -1,0 +1,33 @@
+version = environmentPlatformVersion(commonsPersistenceReactiveDynamoDbLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-persistence-dynamodb"
+}
+
+dependencies {
+    implementation project(":persistence:dynamodb:non-reactive")
+    implementation "com.amazonaws:aws-java-sdk-dynamodb"
+    implementation "io.projectreactor:reactor-core"
+    testImplementation project(":testing:test-toolkit")
+    testImplementation project(":testing:unit-test")
+}
+
+publishing {
+    publications {
+        persistenceReactiveDynamoDb(MavenPublication) {
+            artifactId = "persistence-reactive-dynamodb"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

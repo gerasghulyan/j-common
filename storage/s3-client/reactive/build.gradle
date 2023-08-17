@@ -1,0 +1,32 @@
+version = environmentPlatformVersion(commonsStorageS3ReactiveClientLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-storage-s3-client"
+}
+
+dependencies {
+    implementation project(":storage:s3-client:non-reactive")
+    implementation "com.amazonaws:aws-java-sdk-s3"
+    implementation "org.json:json"
+    implementation "io.projectreactor:reactor-core"
+}
+
+publishing {
+    publications {
+        queueMessage(MavenPublication) {
+            artifactId = "storage-s3-client"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

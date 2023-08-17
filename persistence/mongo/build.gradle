@@ -1,0 +1,29 @@
+version = environmentPlatformVersion(commonsPersistenceMongoLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-persistence-mongo"
+}
+
+dependencies {
+    api 'org.springframework.data:spring-data-mongodb'
+}
+
+publishing {
+    publications {
+        persistenceMongo(MavenPublication) {
+            artifactId = "persistence-mongo"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

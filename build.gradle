@@ -1,0 +1,215 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id "java"
+    id "idea"
+    id 'org.springframework.boot' version '3.0.1' apply false
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.sonarqube' version '3.3'
+    id "org.jetbrains.kotlin.jvm" version "1.8.0" apply false
+    id "org.jetbrains.kotlin.plugin.jpa" version "1.8.0" apply false
+    id "org.jetbrains.kotlin.plugin.spring" version "1.8.0" apply false
+    id "org.ajoberstar.grgit" version "4.1.1"
+    id 'jacoco'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+ext {
+    //commons library version
+    commonsGroup = "com.aoodax.jvm.common"
+    commonsPersistenceMongoLibraryVersion = "1.0.0"
+    commonsPersistencePostgresLibraryVersion = "1.0.0"
+    commonsPersistenceDynamoDbLibraryVersion = "1.0.0"
+    commonsPersistenceReactiveDynamoDbLibraryVersion = "1.0.0"
+    commonsRestDtoLibraryVersion = "1.0.0"
+    commonsRestApiLibraryVersion = "1.0.0"
+    commonsTestToolkitLibraryVersion = "1.0.0"
+    commonsUtilsLibraryVersion = "1.0.0"
+    commonsQueueConsumerLibraryVersion = "1.0.0"
+    commonsQueueMessageLibraryVersion = "1.0.0"
+    commonsQueueProducerLibraryVersion = "1.0.0"
+    commonsUnitTestLibraryVersion = "1.0.0"
+    commonsIntegrationTestLocalStackLibraryVersion = "1.0.0"
+    commonsIntegrationTestMongoLibraryVersion = "1.0.0"
+    commonsIntegrationTestPsqlLibraryVersion = "1.0.0"
+    commonsIntegrationTestMemcachedLibraryVersion = "1.0.0"
+    commonsStorageS3ClientLibraryVersion = "1.0.0"
+    commonsStorageS3ReactiveClientLibraryVersion = "1.0.0"
+    //dependencies versions
+    kotlinVersion = "1.8.0"
+    springBootVersion = "3.0.1"
+    mongoVersion = '2.7.4'
+    lombokVersion = '1.18.24'
+    assertjVersion = "3.24.2"
+    springCloudVersion = '2022.0.0'
+    commonsLang3Version = "3.12.0"
+    vavrVersion = "0.10.4"
+    r2dbcPostgresqlVersion = '1.0.0.RELEASE'
+    postgresqlVerion = '42.5.4'
+    jooqVersion = '3.17.6'
+    jacksonAnnotationVersion = '2.14.1'
+    swaggerProjectVersion = '2.2.8'
+    testcontainersVersion = '1.18.0'
+    messagingVersion = '2.2.6.RELEASE'
+    slf4jApiVersion = '2.0.5'
+    awsJavaSdkVersion = '1.12.416'
+    reactorVersion = '3.5.3'
+
+    jsonVersion = '20220320'
+    r2dbcPoolVersion = '1.0.0.RELEASE'
+    mockitoVersion = '5.1.1'
+    junitJupiterVersion = '5.9.2'
+}
+
+def environmentPlatformVersion(libraryVersion) {
+    def branch = getBranchName()
+    switch (branch) {
+        case "develop":
+            return "$libraryVersion-SNAPSHOT"
+        case "main":
+            return libraryVersion
+        default:
+            if (branch =~ /^release.*/) {
+                return "$libraryVersion-release-SNAPSHOT"
+            }
+            return "$libraryVersion-SNAPSHOT"
+    }
+}
+
+private String getBranchName() {
+    System.getenv("ci_commit_branch") ?: grgit.getBranch().current().name
+}
+
+subprojects {
+
+    apply plugin: "idea"
+    apply plugin: "java"
+    apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "org.jetbrains.kotlin.plugin.spring"
+
+    apply plugin: 'maven-publish'
+
+    group = commonsGroup
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    repositories {
+        mavenCentral()
+    }
+
+    task makePretty(type: Delete) {
+        delete "out"
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_17
+        }
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_17
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom SpringBootPlugin.BOM_COORDINATES
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+            mavenBom "org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"
+            mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+        }
+        dependencies {
+            dependency "io.vavr:vavr:$vavrVersion"
+            dependency "org.apache.commons:commons-lang3:$commonsLang3Version"
+            dependency "org.projectlombok:lombok:${lombokVersion}"
+            dependency "org.slf4j:slf4j-api:$slf4jApiVersion"
+            dependency "org.postgresql:r2dbc-postgresql:${r2dbcPostgresqlVersion}"
+            dependency "org.postgresql:postgresql:$postgresqlVerion"
+            dependency "org.assertj:assertj-core:${assertjVersion}"
+            dependency "com.fasterxml.jackson.core:jackson-databind:$jacksonAnnotationVersion"
+            dependency "com.fasterxml.jackson.core:jackson-annotations:$jacksonAnnotationVersion"
+            dependency "io.swagger.core.v3:swagger-annotations-jakarta:$swaggerProjectVersion"
+            dependency "org.springframework.cloud:spring-cloud-aws-messaging:${messagingVersion}"
+            dependency "com.amazonaws:aws-java-sdk-s3:${awsJavaSdkVersion}"
+            dependency "com.amazonaws:aws-java-sdk-core:${awsJavaSdkVersion}"
+            dependency "com.amazonaws:aws-java-sdk-rds:${awsJavaSdkVersion}"
+            dependency "com.amazonaws:aws-java-sdk-dynamodb:${awsJavaSdkVersion}"
+            dependency "org.json:json:${jsonVersion}"
+            dependency "io.r2dbc:r2dbc-pool:${r2dbcPoolVersion}"
+            dependency "io.projectreactor:reactor-core:${reactorVersion}"
+            dependency "org.mockito:mockito-core:${mockitoVersion}"
+            dependency "org.mockito:mockito-inline:${mockitoVersion}"
+            dependency "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+            dependency "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
+            dependency "io.projectreactor:reactor-test:${reactorVersion}"
+        }
+    }
+
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-reflect"
+        implementation "org.apache.commons:commons-lang3"
+        implementation "io.vavr:vavr"
+        implementation "org.slf4j:slf4j-api"
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = 'artifactRegistry'
+                url = "https://artifactory.aoodaxtech.com/artifactory/maven-${getBranchName() == 'main' ? 'releases' : 'snapshots'}/"
+                credentials(PasswordCredentials)
+            }
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.exclusions",
+                        "**/exception/**," +
+                        "**/dto/**," +
+                        "**/document/**," +
+                        "**/entity/**," +
+                        "**/enumeration/**," +
+                        "**/utils/**,"
+
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.8'
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir('reports/jacocoHtml')
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport
+}

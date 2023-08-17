@@ -1,0 +1,30 @@
+version = environmentPlatformVersion(commonsQueueMessageLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-queue-message"
+}
+
+dependencies {
+    implementation project(':utils')
+    testImplementation project(":testing:test-toolkit")
+}
+
+publishing {
+    publications {
+        queueMessage(MavenPublication) {
+            artifactId = "queue-message"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

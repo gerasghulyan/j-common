@@ -1,0 +1,143 @@
+subprojects {
+    dependencies {
+        implementation "org.testcontainers:testcontainers"
+        implementation "org.testcontainers:junit-jupiter"
+        implementation "org.springframework.boot:spring-boot-starter-test"
+    }
+}
+
+project(":testing:integration-test:localstack") {
+    version = environmentPlatformVersion(commonsIntegrationTestLocalStackLibraryVersion)
+
+    dependencies {
+        api "org.testcontainers:localstack"
+        api "org.springframework.cloud:spring-cloud-aws-messaging"
+        api "com.amazonaws:aws-java-sdk-dynamodb"
+    }
+
+    jar {
+        archivesBaseName = "aoodax-j-common-integration-test-localstack"
+    }
+
+    publishing {
+        publications {
+            testToolkit(MavenPublication) {
+                artifactId = "integration-test-localstack"
+                version = version
+
+                from components.java
+
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+            }
+        }
+    }
+}
+
+project(":testing:integration-test:mongodb") {
+    version = environmentPlatformVersion(commonsIntegrationTestMongoLibraryVersion)
+
+    dependencies {
+        implementation "org.testcontainers:mongodb"
+    }
+
+    jar {
+        archivesBaseName = "aoodax-j-common-test-integration-test-mongo"
+    }
+
+    publishing {
+        publications {
+            testToolkit(MavenPublication) {
+                artifactId = "integration-test-mongo"
+                version = version
+
+                from components.java
+
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+            }
+        }
+    }
+}
+
+project(":testing:integration-test:postgres") {
+    version = environmentPlatformVersion(commonsIntegrationTestPsqlLibraryVersion)
+
+    dependencies {
+        api "org.testcontainers:postgresql"
+    }
+
+    jar {
+        archivesBaseName = "aoodax-j-common-test-integration-test-postgres"
+    }
+
+    publishing {
+        publications {
+            testToolkit(MavenPublication) {
+                artifactId = "integration-test-postgres"
+                version = version
+
+                from components.java
+
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+            }
+        }
+    }
+}
+
+project(":testing:integration-test:memcached") {
+    version = environmentPlatformVersion(commonsIntegrationTestMemcachedLibraryVersion)
+
+    jar {
+        archivesBaseName = "aoodax-j-common-test-integration-test-memcached"
+    }
+
+    publishing {
+        publications {
+            testToolkit(MavenPublication) {
+                artifactId = "integration-test-memcached"
+                version = version
+
+                from components.java
+
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+            }
+        }
+    }
+}
+
+project(":testing:integration-test:samples") {
+
+    dependencies {
+        testImplementation "org.postgresql:postgresql"
+
+        testApi project(":testing:integration-test:postgres")
+        testApi project(":testing:integration-test:localstack")
+    }
+}

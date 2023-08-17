@@ -1,0 +1,30 @@
+version = environmentPlatformVersion(commonsRestDtoLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-rest-dto"
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+}
+
+publishing {
+    publications {
+        restDto(MavenPublication) {
+            artifactId = "rest-dto"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+version = environmentPlatformVersion(commonsUnitTestLibraryVersion)
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+apply plugin: "org.jetbrains.kotlin.plugin.spring"
+
+dependencies {
+    implementation "org.mockito:mockito-junit-jupiter"
+    implementation "org.junit.jupiter:junit-jupiter-params"
+    api project(":testing:test-toolkit")
+}
+
+jar {
+    archivesBaseName = "aoodax-j-common-unit-test"
+}
+
+publishing {
+    publications {
+        testToolkit(MavenPublication) {
+            artifactId = "unit-test"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}
+

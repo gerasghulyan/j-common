@@ -1,0 +1,29 @@
+version = environmentPlatformVersion(commonsPersistencePostgresLibraryVersion)
+
+jar {
+    archivesBaseName = "aoodax-j-common-persistence-postgres"
+}
+
+dependencies {
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+
+publishing {
+    publications {
+        persistencePostgresHibernate(MavenPublication) {
+            artifactId = "persistence-postgres"
+            version = version
+
+            from components.java
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}
