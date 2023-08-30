@@ -6,8 +6,9 @@ jar {
 
 dependencies {
     api project(":rest:dto")
-    implementation "io.swagger.core.v3:swagger-annotations-jakarta"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    api project(':utils')
+    testImplementation project(":testing:test-toolkit")
+    api "org.springframework.boot:spring-boot-starter-actuator"
 }
 
 publishing {

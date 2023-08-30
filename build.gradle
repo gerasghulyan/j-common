@@ -23,24 +23,24 @@ repositories {
 ext {
     //commons library version
     commonsGroup = "com.aoodax.jvm.common"
-    commonsPersistenceMongoLibraryVersion = "1.0.0"
-    commonsPersistencePostgresLibraryVersion = "1.0.0"
-    commonsPersistenceDynamoDbLibraryVersion = "1.0.0"
-    commonsPersistenceReactiveDynamoDbLibraryVersion = "1.0.0"
-    commonsRestDtoLibraryVersion = "1.0.0"
-    commonsRestApiLibraryVersion = "1.0.0"
-    commonsTestToolkitLibraryVersion = "1.0.0"
-    commonsUtilsLibraryVersion = "1.0.0"
-    commonsQueueConsumerLibraryVersion = "1.0.0"
-    commonsQueueMessageLibraryVersion = "1.0.0"
-    commonsQueueProducerLibraryVersion = "1.0.0"
-    commonsUnitTestLibraryVersion = "1.0.0"
-    commonsIntegrationTestLocalStackLibraryVersion = "1.0.0"
-    commonsIntegrationTestMongoLibraryVersion = "1.0.0"
-    commonsIntegrationTestPsqlLibraryVersion = "1.0.0"
-    commonsIntegrationTestMemcachedLibraryVersion = "1.0.0"
-    commonsStorageS3ClientLibraryVersion = "1.0.0"
-    commonsStorageS3ReactiveClientLibraryVersion = "1.0.0"
+    commonsPersistenceMongoLibraryVersion = "0.0.1"
+    commonsPersistencePostgresLibraryVersion = "0.0.1"
+    commonsPersistenceDynamoDbLibraryVersion = "0.0.1"
+    commonsPersistenceReactiveDynamoDbLibraryVersion = "0.0.1"
+    commonsRestDtoLibraryVersion = "0.0.1"
+    commonsRestApiLibraryVersion = "0.0.1"
+    commonsTestToolkitLibraryVersion = "0.0.1"
+    commonsUtilsLibraryVersion = "0.0.1"
+    commonsQueueConsumerLibraryVersion = "0.0.1"
+    commonsQueueMessageLibraryVersion = "0.0.1"
+    commonsQueueProducerLibraryVersion = "0.0.1"
+    commonsUnitTestLibraryVersion = "0.0.1"
+    commonsIntegrationTestLocalStackLibraryVersion = "0.0.1"
+    commonsIntegrationTestMongoLibraryVersion = "0.0.1"
+    commonsIntegrationTestPsqlLibraryVersion = "0.0.1"
+    commonsIntegrationTestMemcachedLibraryVersion = "0.0.1"
+    commonsStorageS3ClientLibraryVersion = "0.0.1"
+    commonsStorageS3ReactiveClientLibraryVersion = "0.0.1"
     //dependencies versions
     kotlinVersion = "1.8.0"
     springBootVersion = "3.0.1"
@@ -53,8 +53,8 @@ ext {
     r2dbcPostgresqlVersion = '1.0.0.RELEASE'
     postgresqlVerion = '42.5.4'
     jooqVersion = '3.17.6'
-    jacksonAnnotationVersion = '2.14.1'
     swaggerProjectVersion = '2.2.8'
+    openApiVersion = '2.2.0'
     testcontainersVersion = '1.18.0'
     messagingVersion = '2.2.6.RELEASE'
     slf4jApiVersion = '2.0.5'
@@ -145,9 +145,8 @@ subprojects {
             dependency "org.postgresql:r2dbc-postgresql:${r2dbcPostgresqlVersion}"
             dependency "org.postgresql:postgresql:$postgresqlVerion"
             dependency "org.assertj:assertj-core:${assertjVersion}"
-            dependency "com.fasterxml.jackson.core:jackson-databind:$jacksonAnnotationVersion"
-            dependency "com.fasterxml.jackson.core:jackson-annotations:$jacksonAnnotationVersion"
             dependency "io.swagger.core.v3:swagger-annotations-jakarta:$swaggerProjectVersion"
+            dependency "org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion"
             dependency "org.springframework.cloud:spring-cloud-aws-messaging:${messagingVersion}"
             dependency "com.amazonaws:aws-java-sdk-s3:${awsJavaSdkVersion}"
             dependency "com.amazonaws:aws-java-sdk-core:${awsJavaSdkVersion}"
