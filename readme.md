@@ -53,10 +53,6 @@ Contributions are welcome! Please read the contribution guidelines before submit
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
-
-## Acknowledgments
-List any sources, libraries, or tools that inspired you or were used in the development of this project.
-
 ---
 
 

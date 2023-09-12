@@ -6,14 +6,15 @@ import org.testcontainers.utility.DockerImageName
 
 class MongoContainer {
     companion object {
-        private val DOCKER_TAG = DockerImageName.parse("mongo:4.0.10")
+        private val DOCKER_TAG = DockerImageName.parse("mongo:6.0.9")
 
         fun prepareContainer(): MongoDBContainer {
-            return MongoDBContainer(DOCKER_TAG)
+            return MongoDBContainer(DOCKER_TAG).withCommand("--replSet docker-rs")
         }
 
         fun setProperties(registry: DynamicPropertyRegistry, container: MongoDBContainer) {
             registry.add("spring.data.mongodb.uri") { container.replicaSetUrl }
+            registry.add("spring.data.mongodb.database") { "test" }
         }
     }
 }

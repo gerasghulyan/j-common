@@ -23,24 +23,24 @@ repositories {
 ext {
     //commons library version
     commonsGroup = "com.aoodax.jvm.common"
-    commonsPersistenceMongoLibraryVersion = "0.0.1"
-    commonsPersistencePostgresLibraryVersion = "0.0.1"
-    commonsPersistenceDynamoDbLibraryVersion = "0.0.1"
-    commonsPersistenceReactiveDynamoDbLibraryVersion = "0.0.1"
-    commonsRestDtoLibraryVersion = "0.0.1"
-    commonsRestApiLibraryVersion = "0.0.1"
-    commonsTestToolkitLibraryVersion = "0.0.1"
-    commonsUtilsLibraryVersion = "0.0.1"
-    commonsQueueConsumerLibraryVersion = "0.0.1"
-    commonsQueueMessageLibraryVersion = "0.0.1"
-    commonsQueueProducerLibraryVersion = "0.0.1"
-    commonsUnitTestLibraryVersion = "0.0.1"
-    commonsIntegrationTestLocalStackLibraryVersion = "0.0.1"
-    commonsIntegrationTestMongoLibraryVersion = "0.0.1"
-    commonsIntegrationTestPsqlLibraryVersion = "0.0.1"
-    commonsIntegrationTestMemcachedLibraryVersion = "0.0.1"
-    commonsStorageS3ClientLibraryVersion = "0.0.1"
-    commonsStorageS3ReactiveClientLibraryVersion = "0.0.1"
+    commonsPersistenceMongoLibraryVersion = "0.0.4"
+    commonsPersistencePostgresLibraryVersion = "0.0.4"
+    commonsPersistenceDynamoDbLibraryVersion = "0.0.4"
+    commonsPersistenceReactiveDynamoDbLibraryVersion = "0.0.4"
+    commonsRestDtoLibraryVersion = "0.0.4"
+    commonsRestApiLibraryVersion = "0.0.4"
+    commonsTestToolkitLibraryVersion = "0.0.4"
+    commonsUtilsLibraryVersion = "0.0.4"
+    commonsQueueConsumerLibraryVersion = "0.0.4"
+    commonsQueueMessageLibraryVersion = "0.0.4"
+    commonsQueueProducerLibraryVersion = "0.0.4"
+    commonsUnitTestLibraryVersion = "0.0.4"
+    commonsIntegrationTestLocalStackLibraryVersion = "0.0.4"
+    commonsIntegrationTestMongoLibraryVersion = "0.0.4"
+    commonsIntegrationTestPsqlLibraryVersion = "0.0.4"
+    commonsIntegrationTestMemcachedLibraryVersion = "0.0.4"
+    commonsStorageS3ClientLibraryVersion = "0.0.4"
+    commonsStorageS3ReactiveClientLibraryVersion = "0.0.4"
     //dependencies versions
     kotlinVersion = "1.8.0"
     springBootVersion = "3.0.1"
@@ -172,12 +172,32 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok'
     }
 
+
+
     publishing {
         repositories {
             maven {
-                name = 'artifactRegistry'
-                url = "https://artifactory.aoodaxtech.com/artifactory/maven-${getBranchName() == 'main' ? 'releases' : 'snapshots'}/"
-                credentials(PasswordCredentials)
+                name = 'sonatypeOSSRH'
+
+                // For snapshot versions
+//                url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+                url = 'https://s01.oss.sonatype.org/content/repositories/releases/'
+
+                // Uncomment the line below for release versions (and comment the snapshot one)
+                // url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+
+//                name = 'artifactRegistry'
+//                url = "https://repo1.maven.org/maven2/"
+
+
+//                credentials {
+//                    username = 'wAnpcktm'
+//                    password = 'eWD9usFMOpLDg20kpfjMuLkz72rRpKVQgHXlq9fq6ubC'
+//                }
+                credentials {
+                    username = 'gerasghulyan'
+                    password = 'Ms5.*R#Fgt#d3cD'
+                }
             }
         }
     }
