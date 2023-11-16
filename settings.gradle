@@ -4,6 +4,7 @@ include "persistence:postgres"
 include "persistence:mongo"
 include 'persistence:dynamodb:reactive'
 include 'persistence:dynamodb:non-reactive'
+include "persistence:oracle"
 
 include "rest:dto"
 include "rest:api"
@@ -11,6 +12,7 @@ include "rest:api"
 include "testing:unit-test"
 include "testing:integration-test:mongodb"
 include "testing:integration-test:postgres"
+include "testing:integration-test:oracle"
 include "testing:integration-test:memcached"
 include "testing:integration-test:localstack"
 include "testing:integration-test:samples"

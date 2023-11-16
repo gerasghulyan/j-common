@@ -1,17 +1,17 @@
-version = environmentPlatformVersion(commonsPersistenceMongoLibraryVersion)
+version = environmentPlatformVersion(commonsPersistenceOracleLibraryVersion)
 
 jar {
-    archivesBaseName = "aoodax-j-common-persistence-mongo"
+    archivesBaseName = "aoodax-j-common-persistence-oracle"
 }
 
 dependencies {
-    api "org.springframework.boot:spring-boot-starter-data-mongodb"
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
 
 publishing {
     publications {
-        persistenceMongo(MavenPublication) {
-            artifactId = "persistence-mongo"
+        persistencePostgresHibernate(MavenPublication) {
+            artifactId = "persistence-oracle"
             version = version
 
             from components.java

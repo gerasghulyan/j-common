@@ -104,6 +104,38 @@ project(":testing:integration-test:postgres") {
     }
 }
 
+project(":testing:integration-test:oracle") {
+    version = environmentPlatformVersion(commonsIntegrationTestOracleLibraryVersion)
+
+    dependencies {
+        api "org.testcontainers:oracle-xe"
+    }
+
+    jar {
+        archivesBaseName = "aoodax-j-common-test-integration-test-oracle"
+    }
+
+    publishing {
+        publications {
+            testToolkit(MavenPublication) {
+                artifactId = "integration-test-oracle"
+                version = version
+
+                from components.java
+
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+            }
+        }
+    }
+}
+
 project(":testing:integration-test:memcached") {
     version = environmentPlatformVersion(commonsIntegrationTestMemcachedLibraryVersion)
 
